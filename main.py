@@ -185,6 +185,56 @@ class SettingsDialog(QDialog):
         }
 
 
+DONATIONS = [
+    ("Bitcoin (BTC)", "bc1qd9j45f4t0jwyhjhqh2kvz2cr7k8xye460rr2y7"),
+    ("Monero (XMR)", "447gTj6Hg6gaAEAUmjqfhqDZr1PziUTvbT4LYLpmLVnTNVFK6cqeqPfh6P4neMKLWX5jDXAr94fWHacJwDvjmCzBBH8wPBt"),
+    ("USDC (Arbitrum)", "0xAC43f9b0E7F0ae6386cfC8ef6BFf62CE9c3006A1"),
+]
+
+
+class DonateDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Apoyar ScreenOCR")
+        self.setMinimumWidth(620)
+
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(24, 24, 24, 24)
+        lay.setSpacing(14)
+
+        intro = QLabel(
+            "ScreenOCR es gratis y de código abierto. Si te ahorra tiempo, "
+            "puedes apoyar su desarrollo con una donación voluntaria:"
+        )
+        intro.setWordWrap(True)
+        lay.addWidget(intro)
+
+        for name, address in DONATIONS:
+            title = QLabel(name.upper())
+            title.setObjectName("sectionTitle")
+            lay.addWidget(title)
+
+            row = QHBoxLayout()
+            field = QLineEdit(address)
+            field.setReadOnly(True)
+            field.setCursorPosition(0)
+            copy_btn = QPushButton("Copiar")
+            copy_btn.clicked.connect(lambda _=False, a=address, b=copy_btn: self._copy(a, b))
+            row.addWidget(field, 1)
+            row.addWidget(copy_btn)
+            lay.addLayout(row)
+
+        close = QDialogButtonBox(QDialogButtonBox.Close)
+        close.rejected.connect(self.reject)
+        close.accepted.connect(self.accept)
+        lay.addWidget(close)
+
+    def _copy(self, text, button):
+        QApplication.clipboard().setText(text)
+        button.setText("¡Copiado!")
+        QTimer.singleShot(1500, lambda: button.setText("Copiar"))
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -224,8 +274,13 @@ class MainWindow(QMainWindow):
         tl.addWidget(title)
         tl.addStretch()
 
+        btn_donate = QPushButton("Donar")
+        btn_donate.setToolTip("Apoyar el proyecto (BTC, XMR, USDC)")
+        btn_donate.clicked.connect(lambda: DonateDialog(self).exec())
         btn_settings = QPushButton("Configuración")
         btn_settings.clicked.connect(self.open_settings)
+        tl.addWidget(btn_donate)
+        tl.addSpacing(8)
         btn_capture = QPushButton(f"Nueva captura   {self.cfg['hotkey'].upper()}")
         btn_capture.setObjectName("primary")
         btn_capture.clicked.connect(self.start_capture)

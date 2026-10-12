@@ -9,6 +9,14 @@ App de escritorio para Windows: captura un área de la pantalla, extrae el texto
 Motor local de Windows: para inglés instala el paquete OCR una vez, como administrador:
 `Add-WindowsCapability -Online -Name 'Language.OCR~~~en-US~0.0.1.0'`
 
+## Apoyar el proyecto
+
+ScreenOCR es gratis. Si te sirve, puedes hacer una donación voluntaria (también desde el botón **Donar** de la app):
+
+- **BTC:** `bc1qd9j45f4t0jwyhjhqh2kvz2cr7k8xye460rr2y7`
+- **XMR:** `447gTj6Hg6gaAEAUmjqfhqDZr1PziUTvbT4LYLpmLVnTNVFK6cqeqPfh6P4neMKLWX5jDXAr94fWHacJwDvjmCzBBH8wPBt`
+- **USDC (Arbitrum):** `0xAC43f9b0E7F0ae6386cfC8ef6BFf62CE9c3006A1`
+
 ## Compilar desde código
 
 ```powershell
