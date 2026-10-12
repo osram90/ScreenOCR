@@ -2,6 +2,21 @@
 
 App de escritorio para Windows: captura un área de la pantalla, extrae el texto con OCR (inglés y español) y lo deja editable en un dashboard.
 
+## Descargar (gratis)
+
+**[⬇ ScreenOCR-Setup-1.0.0.exe](https://github.com/osram90/ScreenOCR/releases/latest)** — instalador para Windows 10/11 (sin permisos de administrador). Incluye acceso directo en el menú Inicio, opción de escritorio y desinstalador.
+
+Motor local de Windows: para inglés instala el paquete OCR una vez, como administrador:
+`Add-WindowsCapability -Online -Name 'Language.OCR~~~en-US~0.0.1.0'`
+
+## Compilar desde código
+
+```powershell
+pip install -r requirements.txt pyinstaller
+pyinstaller --noconfirm --clean --windowed --name ScreenOCR --icon icon.ico --collect-all winrt main.py
+ISCC.exe installer.iss   # Inno Setup 6 -> installer\ScreenOCR-Setup-1.0.0.exe
+```
+
 ## Instalación
 
 ```powershell
