@@ -2,10 +2,11 @@
 import sys
 import uuid
 from datetime import datetime
+from pathlib import Path
 
 import keyboard
 from PySide6.QtCore import QObject, QSize, Qt, QThread, QTimer, Signal
-from PySide6.QtGui import QKeySequence, QPixmap, QShortcut
+from PySide6.QtGui import QIcon, QKeySequence, QPixmap, QShortcut
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
@@ -475,6 +476,12 @@ class MainWindow(QMainWindow):
         QApplication.quit()
 
 
+def resource_path(name):
+    """Ruta a un recurso junto al script o dentro del ejecutable empaquetado."""
+    base = getattr(sys, "_MEIPASS", Path(__file__).resolve().parent)
+    return str(Path(base) / name)
+
+
 def main():
     if len(sys.argv) == 3 and sys.argv[1] == "--selftest-ocr":
         # Diagnóstico: ScreenOCR.exe --selftest-ocr imagen.png  (imprime el texto y sale)
@@ -488,6 +495,7 @@ def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)  # el overlay de captura puede cerrarse sin cerrar la app
     app.setStyleSheet(QSS)
+    app.setWindowIcon(QIcon(resource_path("icon.ico")))  # barra de tareas y ventanas
     win = MainWindow()
     win.show()
     sys.exit(app.exec())
